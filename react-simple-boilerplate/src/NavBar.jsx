@@ -7,6 +7,7 @@ class NavBar extends React.Component {
     return (
       <nav className="navbar">
        <a href="/" className="navbar-brand">Chatty</a>
+       <div className="user-counter">{`${this.props.userCount} users online`}</div>
       </nav>
     )
   }

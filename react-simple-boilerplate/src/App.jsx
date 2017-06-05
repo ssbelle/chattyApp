@@ -3,8 +3,8 @@ import React, {Component} from 'react';
 import ChatBar from './ChatBar.jsx'
 import NavBar from './NavBar.jsx'
 import MessageList from './MessageList.jsx'
+import AddUser from './AddUser.jsx'
 let server;
-
 
 
 class App extends Component {
@@ -12,7 +12,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: {username: 'Shawna'},
+      currentUser: {username: "shawna"},
       messages: []
     };
 
@@ -25,33 +25,50 @@ class App extends Component {
     server = new WebSocket("ws://localhost:3001/");
     server.onmessage = (event) => {
       const msgToScreen = JSON.parse(event.data);
-      this.setState({
-        currentUser: {username: this.state.currentUser.username},
-        messages:this.state.messages.concat(msgToScreen)
-      });
+
+      if(msgToScreen.type === "incomingCount") {
+        this.setState({
+          userCount: msgToScreen.count
+        });
+      } else {
+        this.setState({
+          messages:this.state.messages.concat(msgToScreen)
+        });
+      }
     }
   };
 
-  addUser(user){
+
+  addUser(username){
+    const notification = {
+      type: "postNotification",
+      user: this.state.currentUser.username,
+      newUser: username,
+      content: `${this.state.currentUser.username} changed their name to ${username}`
+    }
     this.setState({
-      currentUser: {username: user}
-    });
+      currentUser:{username : username}
+    })
+    console.log(notification)
+
+    server.send(JSON.stringify(notification));
   }
+
 
   addMessage(newMessage) {
     const message = {
+      type: "postMessage",
       username: this.state.currentUser.username,
       content: newMessage
     }
-    //sends the object to the server
     server.send(JSON.stringify(message));
   }
 
   render() {
     return (
       <div>
-        <NavBar />
-        <MessageList messages={this.state.messages} />
+        <NavBar userCount={this.state.userCount}/>
+        <MessageList messages={this.state.messages} addUser={this.addUser} />
         <ChatBar currentUser={this.state.currentUser.username} addMessage={this.addMessage} addUser={this.addUser} />
       </div>
     );

@@ -15,15 +15,26 @@ const server = express()
 
 // Create the WebSockets server
 const wss = new SocketServer({ server });
+let counter = 0; //counter keeps track of online users
+
 
 // Set up a callback that will run when a client connects to the server
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
+
 wss.on('connection', (ws) => {
   console.log('Client connected');
+  counter ++;
+  updateCount(counter);
+
+
+
   ws.on('message', handleMsg);
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
-  ws.on('close', () => console.log('Client disconnected'));
+  ws.on('close', () => {
+    console.log('Client disconnected');
+    counter --;
+  });
 });
 
 wss.broadcast = function(data) {
@@ -33,42 +44,34 @@ wss.broadcast = function(data) {
 };
 
 
-
 function handleMsg(message) {
-  //console.log(`received: ${message}`)
   const msg = JSON.parse(message);
-  // Object.assign(msg, {id:uuid.v1()})
   msg.id = uuid.v1();
-  //console.log(msg)
-  const to_client= JSON.stringify(msg)
-  //console.log("got:", msg)
-  wss.broadcast(to_client)
 
+  if(msg.type === "postMessage"){
+    msg.type = "incomingMessage"
+    const to_client= JSON.stringify(msg)
+    wss.broadcast(to_client)
+
+  } else {
+    msg.type = "incomingNotification"
+    const to_client= JSON.stringify(msg)
+    wss.broadcast(to_client)
+  }
+}
+
+
+const updateCount = (count) => {
+  wss.clients.forEach((client) => {
+    let c = {
+      type: "incomingCount",
+      count: count
+    };
+    const to_client = JSON.stringify(c)
+    client.send(to_client)
+  })
 }
 
 
 
-
-  //this version stopped sending the uuid with object
-  // ws.on('message', function addMessage(message) {
-  //   console.log(message)
-  //   const msg = JSON.parse(message)
-  //   Object.assign(msg, {id:uuid.v1()})
-  //    wss.clients.forEach(function each(client) {
-  //     if (client.readyState === SocketServer.OPEN) {
-  //       client.send(JSON.stringify(msg))
-  //     }
-  //   });
-  // })
-
-
-
-    // wss.broadcast = function broadcast(data){
-    //   ws.clients.forEach(function each(client) {
-    //     if (client.readyState === SocketServer.OPEN){
-    //        console.log(msg)
-    //       client.send(msg)
-    //     }
-    //   })
-    // }
 

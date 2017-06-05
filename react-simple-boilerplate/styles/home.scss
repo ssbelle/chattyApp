@@ -19,6 +19,44 @@ body {
       right: 0;
     }
 
+    .chatbar-right {
+      display: flex;
+      flex: 1;
+      align-items: flex-end;
+    }
+    .chatbar-left {
+
+    }
+
+    .chatbar-color-picker-btn {
+      height: 27px;
+      margin: 5px;
+      width: 25px;
+      background: url('/build/img/color-wheel-picker.png');
+      background-size: contain;
+      position: absolute;
+      top: 13px;
+      left:13px;
+      border:none;
+      background-repeat: no-repeat;
+      cursor: pointer;
+
+      .github-picker {
+        position: absolute;
+        top: -74px;
+        left: -12px;
+        > div {
+          transform: rotate(180deg);
+          &:first-of-type {
+            top:61px !important;
+          }
+          &:last-of-type {
+            top:59px !important;
+          };
+        }
+      }
+
+    }
     .chatbar-message,
     .chatbar-username {
       border: 1px solid black;
@@ -27,6 +65,7 @@ body {
       line-height: 40px;
       margin: 5px;
       padding: 0 9px;
+      padding-left: 41px;
     }
 
     .chatbar-message {
@@ -35,6 +74,7 @@ body {
 
     .chatbar-username {
       flex: 2;
+
     }
 
     .message {
@@ -53,6 +93,7 @@ body {
       overflow: hidden;
       margin: 5px;
       padding: 0 10px;
+
     }
 
     .message-content {
@@ -62,6 +103,7 @@ body {
     .message-username {
       flex: 2;
       font-weight: 700;
+
     }
 
     .navbar {
@@ -73,6 +115,9 @@ body {
       position: fixed;
       right: 0;
       top: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .navbar-brand {

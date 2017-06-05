@@ -2,11 +2,11 @@ import React from 'react';
 
 class Message extends React.Component {
   render() {
-    let message = this.props;
-    let username = message.username || 'Annonymous';
+    let username = this.props.username || 'Annonymous';
+
     return (
       <main className="messages">
-        <div className="message" key={message.id}>
+        <div className="message">
           <span className="message-username">{username} says</span>
           <span className="message-content">{this.props.content}</span>
         </div>
