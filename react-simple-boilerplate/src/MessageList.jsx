@@ -17,7 +17,7 @@ class MessageList extends React.Component {
       }
     })
     return (
-      <div className="message system">
+      <div className='message system'>
         { messages }
       </div>
     )

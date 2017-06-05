@@ -48,13 +48,13 @@ function handleMsg(message) {
   const msg = JSON.parse(message);
   msg.id = uuid.v1();
 
-  if(msg.type === "postMessage"){
-    msg.type = "incomingMessage"
+  if(msg.type === 'postMessage'){
+    msg.type = 'incomingMessage'
     const to_client= JSON.stringify(msg)
     wss.broadcast(to_client)
 
   } else {
-    msg.type = "incomingNotification"
+    msg.type = 'incomingNotification'
     const to_client= JSON.stringify(msg)
     wss.broadcast(to_client)
   }
@@ -64,7 +64,7 @@ function handleMsg(message) {
 const updateCount = (count) => {
   wss.clients.forEach((client) => {
     let c = {
-      type: "incomingCount",
+      type: 'incomingCount',
       count: count
     };
     const to_client = JSON.stringify(c)

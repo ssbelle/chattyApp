@@ -39,26 +39,26 @@ class ChatBar extends React.Component {
 
   render() {
     return (
-      <footer className="chatbar">
-        <div className="chatbar-left">
-          <input className="chatbar-username"
+      <footer className='chatbar'>
+        <div className='chatbar-left'>
+          <input className='chatbar-username'
                  onKeyPress={(event) => this.onUserSubmission(event)}
-                 placeholder="Enter Name"
+                 placeholder='Enter Name'
                  defaultValue={this.props.currentUser}
                  style={{color: this.state.color}} />
           <button
-            className="chatbar-color-picker-btn"
+            className='chatbar-color-picker-btn'
             onClick={() => this.colorPickerBtnHandler()}>
             { this.state.pickingColor ?
               <GithubPicker
-                triangle="top-left"
+                triangle='top-left'
                 onChangeComplete={(color) => this.onColorSelect(color)}/> :
               null
             }
           </button>
         </div>
-        <div className="chatbar-right">
-          <input className="chatbar-message" onKeyPress={(event) => this.onMsgSubmission(event)} placeholder="Type a message and hit ENTER" />
+        <div className='chatbar-right'>
+          <input className='chatbar-message' onKeyPress={(event) => this.onMsgSubmission(event)} placeholder='Type a message and hit ENTER' />
         </div>
       </footer>
     )

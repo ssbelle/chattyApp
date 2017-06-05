@@ -12,7 +12,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: {username: "shawna"},
+      currentUser: {username: 'shawna'},
       messages: []
     };
 
@@ -22,11 +22,11 @@ class App extends Component {
   }
 
   componentDidMount() {
-    server = new WebSocket("ws://localhost:3001/");
+    server = new WebSocket('ws://localhost:3001/');
     server.onmessage = (event) => {
       const msgToScreen = JSON.parse(event.data);
 
-      if(msgToScreen.type === "incomingCount") {
+      if(msgToScreen.type === 'incomingCount') {
         this.setState({
           userCount: msgToScreen.count
         });
@@ -41,7 +41,7 @@ class App extends Component {
 
   addUser(username){
     const notification = {
-      type: "postNotification",
+      type: 'postNotification',
       user: this.state.currentUser.username,
       newUser: username,
       content: `${this.state.currentUser.username} changed their name to ${username}`
@@ -57,7 +57,7 @@ class App extends Component {
 
   addMessage(newMessage) {
     const message = {
-      type: "postMessage",
+      type: 'postMessage',
       username: this.state.currentUser.username,
       content: newMessage
     }
